@@ -18,7 +18,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-interface IVenusStrategy {
+interface WaultRewardStrategy {
     function want() external view returns (address);
     function deposit() external;
     function withdraw(uint256) external;
@@ -83,7 +83,7 @@ contract WaultVaultBNB is ERC20, Ownable {
      * and the balance deployed in other contracts as part of the strategy.
      */
     function balance() public view returns (uint256) {
-        return available().add(IVenusStrategy(strategy).balanceOf());
+        return available().add(WaultRewardStrategy(strategy).balanceOf());
     }
 
     /**
@@ -116,7 +116,7 @@ contract WaultVaultBNB is ERC20, Ownable {
      * into the vault. The vault is then in charge of sending funds into the strategy.
      */
     function deposit(uint _amount) public {
-        IVenusStrategy(strategy).updateBalance();
+        WaultRewardStrategy(strategy).updateBalance();
 
         uint256 _pool = balance();
         wbnb.safeTransferFrom(msg.sender, address(this), _amount);
@@ -137,7 +137,7 @@ contract WaultVaultBNB is ERC20, Ownable {
      * and the vault will wrap them before sending them into the strat.
      */
     function depositBNB() public payable {
-        IVenusStrategy(strategy).updateBalance();
+        WaultRewardStrategy(strategy).updateBalance();
 
         uint256 _pool = balance();
         uint256 _before = wbnb.balanceOf(address(this));
@@ -165,7 +165,7 @@ contract WaultVaultBNB is ERC20, Ownable {
     function earn() public {
         uint _bal = available();
         wbnb.safeTransfer(strategy, _bal);
-        IVenusStrategy(strategy).deposit();
+        WaultRewardStrategy(strategy).deposit();
     }
 
     /**
@@ -188,7 +188,7 @@ contract WaultVaultBNB is ERC20, Ownable {
      * tokens are burned in the process.
      */
     function withdraw(uint256 _shares) public {
-        IVenusStrategy(strategy).updateBalance();
+        WaultRewardStrategy(strategy).updateBalance();
 
         uint256 r = (balance().mul(_shares)).div(totalSupply());
         _burn(msg.sender, _shares);
@@ -196,7 +196,7 @@ contract WaultVaultBNB is ERC20, Ownable {
         uint256 b = wbnb.balanceOf(address(this));
         if (b < r) {
             uint256 _withdraw = r.sub(b);
-            IVenusStrategy(strategy).withdraw(_withdraw);
+            WaultRewardStrategy(strategy).withdraw(_withdraw);
             uint256 _after = wbnb.balanceOf(address(this));
             uint256 _diff = _after.sub(b);
             if (_diff < _withdraw) {
@@ -212,7 +212,7 @@ contract WaultVaultBNB is ERC20, Ownable {
      * but the funds arrive in native bnb.
      */
     function withdrawBNB(uint256 _shares) public {
-        IVenusStrategy(strategy).updateBalance();
+        WaultRewardStrategy(strategy).updateBalance();
 
         uint256 r = (balance().mul(_shares)).div(totalSupply());
         _burn(msg.sender, _shares);
@@ -220,7 +220,7 @@ contract WaultVaultBNB is ERC20, Ownable {
         uint256 b = wbnb.balanceOf(address(this));
         if (b < r) {
             uint256 _withdraw = r.sub(b);
-            IVenusStrategy(strategy).withdraw(_withdraw);
+            WaultRewardStrategy(strategy).withdraw(_withdraw);
             uint256 _after = wbnb.balanceOf(address(this));
             uint256 _diff = _after.sub(b);
             if (_diff < _withdraw) {
@@ -258,7 +258,7 @@ contract WaultVaultBNB is ERC20, Ownable {
         
         emit UpgradeStrat(stratCandidate.implementation);
 
-        IVenusStrategy(strategy).retireStrat();
+        WaultRewardStrategy(strategy).retireStrat();
         strategy = stratCandidate.implementation;
         stratCandidate.implementation = address(0);
         stratCandidate.proposedTime = 5000000000;
