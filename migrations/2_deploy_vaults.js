@@ -1,5 +1,5 @@
 const RewardsStrategy = artifacts.require("RewardsStrategy");
-const WaultVaultBNB = artifacts.require("WaultVaultBNB");
+const WaultBnbStrategy = artifacts.require("WaultBnbStrategy");
 
 module.exports = function (deployer) {
 
