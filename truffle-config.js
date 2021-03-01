@@ -1,8 +1,7 @@
 require('dotenv').config();
-const HDWalletProvider = require('truffle-hdwallet-provider');
+const HDWalletProvider = require('@truffle/hdwallet-provider');
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
-
 const { mnemonic, BSCSCANAPIKEY} = process.env;
 
 module.exports = {
@@ -42,14 +41,14 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-       version: "0.7.4",    
+      version: "0.7.6",
       // docker: true,        
       settings: {
        optimizer: {
          enabled: false,
          runs: 200
        },
-       evmVersion: "byzantium"
+      //  evmVersion: "byzantium"
       }
     },
   }
