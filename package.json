@@ -7,26 +7,15 @@
     "test": "test"
   },
   "scripts": {
-    "test": "truffle test"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/WaultFinance/bnb-vault.git"
-  },
-  "author": "Warlord",
+  "author": "Warlord-dev",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/WaultFinance/bnb-vault/issues"
-  },
-  "homepage": "https://github.com/WaultFinance/bnb-vault#readme",
   "devDependencies": {
-    "@openzeppelin/contracts": "^2.5.1",
     "@truffle/hdwallet-provider": "^1.2.2",
     "dotenv": "^8.2.0",
-    "fs": "0.0.1-security",
-    "solc": "^0.8.1",
-    "truffle": "^5.1.67",
-    "truffle-plugin-verify": "^0.5.5",
-    "zeppelin-solidity": "^1.12.0"
+    "truffle-plugin-verify": "^0.5.6"
+  },
+  "dependencies": {
   }
 }

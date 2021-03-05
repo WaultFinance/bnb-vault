@@ -1,7 +1,5 @@
 require('dotenv').config();
 const HDWalletProvider = require('@truffle/hdwallet-provider');
-// const fs = require('fs');
-// const mnemonic = fs.readFileSync(".secret").toString().trim();
 const { mnemonic, BSCSCANAPIKEY} = process.env;
 
 module.exports = {
@@ -21,7 +19,7 @@ module.exports = {
       provider: () => new HDWalletProvider(mnemonic, `https://data-seed-prebsc-1-s1.binance.org:8545`),
       network_id: 97,
       confirmations: 10,
-      timeoutBlocks: 200,
+      timeoutBlocks: 300000,
       skipDryRun: true
     },
     bsc: {
@@ -35,13 +33,13 @@ module.exports = {
 
   // Set default mocha options here, use special reporters etc.
   mocha: {
-    timeout: 100000
+    timeout: 1000000
   },
 
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.7.6",
+      version: "0.8.1",
       // docker: true,        
       settings: {
        optimizer: {
